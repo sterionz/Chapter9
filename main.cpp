@@ -1,11 +1,12 @@
 // Name: Alex Jacobs, David Nguyen, Gabriel Lira, Jessy Zuniga, Cristine Llano, and Jorge Gonzalez
-// Date: 11-3-2025
+// Date: 11-6-2025
 // Description: Chapter 9 Assignments
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include "input.h"
 #include "GuessNumber.h"
+#include "towerofhanoi.h"
 
 
 using namespace std;
@@ -60,7 +61,7 @@ int main()
         }
 
         case 3:
-            // TODO: Add "Tower of Hanoi" function
+            runTowerOfHanoi();
             break;
 
         case 4:
