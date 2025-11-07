@@ -76,7 +76,9 @@ int main()
 
 }
 
-// Recursive function for guessing
+
+// Precondition: Function needs two randomly generated values for low and high.
+// Postcondition: Should run through guessing game program.
 int computerGuess(int low, int high, int &count)
 {
     int guess = (low + high) / 2;
