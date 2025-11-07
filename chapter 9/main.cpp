@@ -177,8 +177,12 @@ bool isSafe(const vector<vector<int>> &board, int row, int column, int n)
 bool solveNQ(vector<vector<int>>& board, int column, int n)
 {
     //if queens placed successfully, true 
-    if (column >= n) 
-        return true;
+    if (column == n) return true;
+
+    //if this column already has a queen (user pre-placed), skip it
+    for (int r = 0; r < n; r++)
+        if (board[r][column] == 1)
+            return solveNQ(board, column + 1, n);
 
     //loops through each row in this column
     for (int row = 0; row < n; row++)
@@ -190,11 +194,10 @@ bool solveNQ(vector<vector<int>>& board, int column, int n)
                 return true;
             board[row][column] = 0; //removes queen if the location was not safe, "backtrack" 
         }
-
     }
-
-    return false; //if everything fails 
+    return false;
 }
+
 
 //precondition: n is set
 //postcondition: displays board 
