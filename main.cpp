@@ -11,9 +11,7 @@
 
 using namespace std;
 
-void Option1();
-void Option2();
-int computerGuess(int low, int high, int &count);
+int computerGuess(int low, int high, int& count);
 void printPattern(int value);
 
 
@@ -53,7 +51,7 @@ int main()
             int count = 0;
 
             srand(static_cast<unsigned int>(time(0)));
-            int upperLimit = rand() % 951 + 50; // random number between 50â€“1000
+            int upperLimit = rand() % 951 + 50; // random number between 50–1000
 
             cout << "\n\t2> Guess your number between 1 to " << upperLimit << ".\n";
             cout << "\n\tThink of a number from 1 to " << upperLimit << ".\n";
@@ -84,7 +82,7 @@ int main()
 }
 
 // Recursive function for guessing
-int computerGuess(int low, int high, int &count)
+int computerGuess(int low, int high, int& count)
 {
     int guess = (low + high) / 2;
     count++;
