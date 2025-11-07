@@ -5,12 +5,13 @@
 #include <cstdlib>
 #include <ctime>
 #include "input.h"
-#include "GuessNumber.h"
+//#include "GuessNumber.h"
 #include "towerofhanoi.h"
 
 
 using namespace std;
 
+void option1();
 int computerGuess(int low, int high, int& count);
 void printPattern(int value);
 
@@ -36,13 +37,7 @@ int main()
         switch (option)
         {
         case 1:
-            system("cls");
-            cout << "\n\t1> Pattern of astricks and blanks\n";
-
-            //print the pattern
-            int start = 2;
-            printPattern(start);
-
+            option1();
             break;
 
         case 2:
@@ -99,6 +94,16 @@ int computerGuess(int low, int high, int& count)
         return computerGuess(low, guess - 1, count);
 }
 
+void option1()
+{
+    system("cls");
+    cout << "\n\t1> Pattern of astricks and blanks\n";
+
+    //print the pattern
+    int start = 2;
+    printPattern(start);
+}
+
 //precondition: int start value must be 2
 //postcondition: function will print out the pattern
 void printPattern(int value)
@@ -107,6 +112,8 @@ void printPattern(int value)
     if (value > 16)
     {
         //pattern is printed :)
+        cout << "\n\n\tPress enter to continue...";
+        cin.get();  //using cin to pause 
     }
     //print '*'
     else if (value % 2 == 0)
