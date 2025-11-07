@@ -50,8 +50,6 @@ string inputString(string prompt, bool withSpaces)
 }
 
 //return an input char
-//PreCondition: valid yes (char) or no (char)
-//PostCondition: returns an uppercase  yes (char) or no (char) 
 char inputChar(string prompt, char yes, char no)
 {
 	char input;
@@ -60,24 +58,17 @@ char inputChar(string prompt, char yes, char no)
 		cout << prompt;
 		if (!(cin >> input))
 		{
-			cout << "ERROR: Invalid input. Must be a character type.\n";
+			cout << "ERROR-1A: Invalid input. Must be a character type.\n";
 			cin.clear();
 			cin.ignore(999, '\n');
 		}
 		else if (tolower(input) != tolower(yes) && tolower(input) != tolower(no))
-		{
-			cout << "ERROR: Invalid input. Must be a '" << static_cast<char>(toupper(yes)) << "' or '" << static_cast<char>(toupper(no)) << "' character.\n";
-			cin.clear();
-			cin.ignore(999, '\n');
-		}
-
+			cout << "ERROR-2A: Invalid input. Must be a '" << static_cast<char>(toupper(yes)) << "' or '" << static_cast<char>(toupper(no)) << "' character.\n";
 		else
-		{
-			cin.clear();
-			cin.ignore(999, '\n');
 			break;
-		}
 	} while (true);
+	cin.clear();
+	cin.ignore(999, '\n');
 	return toupper(input);
 }
 
@@ -352,4 +343,3 @@ double inputDouble(string prompt, double startRange, double endRange)
 }
 
 #endif // !INPUT_H
-

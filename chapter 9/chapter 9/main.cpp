@@ -5,14 +5,19 @@
 #include <cstdlib>
 #include <ctime>
 #include "input.h"
+#include "towerofhanoi.h"
 //#include "GuessNumber.h"
-
 
 using namespace std;
 
-
 void option1();
+
+
 int computerGuess(int low, int high, int &count);
+
+bool isSafe(const vector<vector<int>>& board, int row, int column, int n);
+bool solveNQ(vector<vector<int>>& board, int column, int n);
+void print(const vector<vector<int>>& board, int n);
 
 
 int main()
@@ -50,23 +55,54 @@ int main()
 
             cout << "\n\t2> Guess your number between 1 to " << upperLimit << ".\n";
             cout << "\n\tThink of a number from 1 to " << upperLimit << ".\n";
-            system("pause");
+            
 
             int number = computerGuess(1, upperLimit, count);
 
             cout << "\n\tNumber of guesses: " << count << "\n"; // display total at the end
-            system("pause");
+          
 
             break;
         }
 
         case 3:
-            // TODO: Add "Tower of Hanoi" function
+            runTowerOfHanoi();
             break;
 
         case 4:
-            // TODO: Add "n-Queens" function
+
+        {
+            int n = inputInteger("\n\tEnter the board dimension dxd: ", true);
+
+            //this makes a blank board
+            //board is a vector, each element inside the board is also a vector
+            vector<vector<int>> board;
+
+            for (int i = 0; i < n; i++)
+            {
+                vector<int> row(n, 0); //makes a vector called row with n columns and each column starts as 0
+                board.push_back(row); //attaches that row to the board 
+            }
+
+            int position = inputInteger("\n\tEnter the column position (1.." + to_string(n) + ") of the first Queen on row 1: ", 1, n);
+            int columnPosition = position - 1;
+
+            board[0][columnPosition] = 1; //this places the queens spot by setting it equal to 1
+
+            
+            if (solveNQ(board, 0, n))
+            {
+                cout << "\n\t" << n << "-Queens solution\n";
+                print(board, n);
+                cout << "\n";
+            }
+
+            else
+            {
+                cout << "\n\tNo solution\n";
+            }
             break;
+        }
 
         case 0:
             return 0;
@@ -77,6 +113,9 @@ int main()
     } while (true);
 
 }
+
+//==============================================================================================
+//Alex Jacobs
 
 // Recursive function for guessing
 int computerGuess(int low, int high, int &count)
@@ -96,6 +135,7 @@ int computerGuess(int low, int high, int &count)
         return computerGuess(low, guess - 1, count);
 }
 
+//==============================================================================================
 
 //==============================================================================================
 // Jessy Zuniga 
@@ -276,7 +316,7 @@ void option1(){
     int depth = 3; // Default recursion depth
     const int INDENT = 4; // Fixed indent spaces per level
 
-    const int RECURSE_MAX = 6; // MAX RECURSION ALLOWED
+    const int RECURSE_MAX = 10; // MAX RECURSION ALLOWED
     do {
 
         system("cls");
@@ -297,19 +337,19 @@ void option1(){
         case 1:
         {
             cout << "\n\n";
-            printPattern(depth, INDENT);
+            printPattern(3, INDENT);
             break;
         }
         case 2:
         {
             cout << "\n\n";
-            printPatternTrace(depth, INDENT);
+            printPatternTrace(3, INDENT);
             break;
         }
         case 3:
         {
             cout << "\n\n";
-            depth = inputInteger(("Enter custom recursion depth (0-" + to_string(RECURSE_MAX) + ": "), 0, RECURSE_MAX);
+            depth = inputInteger(("Enter custom recursion depth (0-" + to_string(RECURSE_MAX) + "): "), 0, RECURSE_MAX);
             cout << "\n\tDepth of Recursion set.";
             break;
         }
@@ -344,3 +384,115 @@ void option1(){
 
 //==============================================================================================
 
+//==============================================================================================
+// Cristine Llano 
+
+//precondition: column is valid position to test
+//postcondition: returns true if queen location is safe, returns false otherwise 
+bool isSafe(const vector<vector<int>>& board, int row, int column, int n)
+{
+    //if board[row][column] is equal 1 then it means theres already a queen
+    //if its equal to 0 then it means empty
+
+
+    //scans every column in the same row so that two queens in the same row cant attack horizontally
+    //if theres a queen, returns false
+    for (int j = 0; j < n; j++)
+        if (j != column && board[row][j] == 1)
+            return false;
+
+    //scans every row in column so that queens cant attack vertically 
+    for (int i = 0; i < n; i++)
+        if (i != row && board[i][column] == 1)
+            return false;
+
+    //scans upper left diagonal so that queens cant attack diagonally
+    for (int i = row - 1, j = column - 1; i >= 0 && j >= 0; i--, j--)
+        if (board[i][j] == 1)
+            return false;
+
+    //scans lower right diagonal so that queens cant attack diagonally
+    for (int i = row + 1, j = column + 1; i < n && j < n; i++, j++)
+        if (board[i][j] == 1)
+            return false;
+
+    //scans upper right diagonal so that queens cant attack diagonally
+    for (int i = row - 1, j = column + 1; i >= 0 && j < n; i--, j++)
+        if (board[i][j] == 1)
+            return false;
+
+    //scans lower left diagonal so that queens cant attack diagonally
+    for (int i = row + 1, j = column - 1; i < n && j >= 0; i++, j--)
+        if (board[i][j] == 1)
+            return false;
+
+    //if all checks pass, there is no queen is that spot and position is safe
+    return true;
+
+}
+
+//precondition: any queens placed are in safe spot 
+//postcondition: returns true if solution found 
+bool solveNQ(vector<vector<int>>& board, int column, int n)
+{
+    //if queens placed successfully, true 
+    if (column == n) return true;
+
+    //if this column already has a queen (user pre-placed), skip it
+    for (int r = 0; r < n; r++)
+        if (board[r][column] == 1)
+            return solveNQ(board, column + 1, n);
+
+    //loops through each row in this column
+    for (int row = 0; row < n; row++)
+    {
+        if (isSafe(board, row, column, n)) //checks if position is safe 
+        {
+            board[row][column] = 1; //sets queen at location
+            if (solveNQ(board, column + 1, n)) //attempt to solve rest of board with that queen set 
+                return true;
+            board[row][column] = 0; //removes queen if the location was not safe, "backtrack" 
+        }
+    }
+    return false;
+}
+
+
+//precondition: n is set
+//postcondition: displays board 
+void print(const vector<vector<int>>& board, int n)
+{
+    cout << "\n\t" << char(201);
+    for (int i = 0; i < 2 * n - 1; i++)
+        cout << char(205);
+
+    cout << char(187) << "\n\t";
+
+    for (int r = 0; r < n; r++)
+    {
+        cout << char(186);
+        for (int c = 0; c < n; c++)
+        {
+            if (board[r][c] == 1)
+                cout << "Q";
+            else
+            {
+                if (r == n - 1)
+                    cout << " ";
+                else
+                    cout << "_";
+            }
+
+            if (c != n - 1)
+                cout << char(179);
+        }
+        cout << char(186) << "\n\t";
+    }
+    cout << char(200);
+    for (int i = 0; i < 2 * n - 1; i++)
+        cout << char(205);
+    cout << char(188) << "\n";
+
+}
+
+//==============================================================================================
