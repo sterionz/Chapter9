@@ -11,9 +11,10 @@
 
 using namespace std;
 
-
+void Option1();
 void Option2();
 int computerGuess(int low, int high, int &count);
+void printPattern(int value);
 
 
 int main()
@@ -37,7 +38,13 @@ int main()
         switch (option)
         {
         case 1:
-            // TODO: Add pattern of asterisks function
+            system("cls");
+            cout << "\n\t1> Pattern of astricks and blanks\n";
+
+            //print the pattern
+            int start = 2;
+            printPattern(start);
+
             break;
 
         case 2:
@@ -94,5 +101,107 @@ int computerGuess(int low, int high, int &count)
         return computerGuess(low, guess - 1, count);
 }
 
+//precondition: int start value must be 2
+//postcondition: function will print out the pattern
+void printPattern(int value)
+{
+    //stop the loop when pattern is complete
+    if (value > 16)
+    {
+        //pattern is printed :)
+    }
+    //print '*'
+    else if (value % 2 == 0)
+    {
+        int blanks = 0;
+        int keepCount = value;
 
+        //adds to 'blanks' to keep the pattern in line
+        for (int i = 0; i < value; i++)
+        {
+            keepCount = keepCount - 2;
 
+            if (keepCount == 0)
+            {
+                break;
+            }
+
+            blanks++;
+        }
+
+        //print the '*'
+        cout << "\n\t" << string(blanks * 2, ' ') << "*";
+
+        //continue the pattern
+        printPattern(value + 1);
+    }
+    //print '* * * * * * * * * *'
+    else if (value % 9 == 0)
+    {
+        //print the '*'
+        cout << "\n\t* * * * * * * * * *";
+
+        //continue the pattern
+        printPattern(value + 1);
+    }
+    //print '* * * *'
+    else if (value == 5 || value == 13)
+    {
+        int blanks = 0;
+        int keepCount = value;
+
+        //adds to 'blanks' to keep the pattern in line
+        for (int i = 0; i < value; i++)
+        {
+            keepCount = keepCount - 5;
+
+            if (keepCount <= 0)
+            {
+                break;
+            }
+
+            blanks++;
+        }
+
+        //print the '*'
+        cout << "\n\t" << string(blanks * 4, ' ') << "* * * *";
+
+        //continue the pattern
+        printPattern(value + 1);
+    }
+    //print '* *'
+    else if (value % 2 != 0)
+    {
+        int blanks = 0;
+        int keepCount = value;
+
+        //adds to 'blanks' to keep the pattern in line
+        for (int i = 0; i < value; i++)
+        {
+            keepCount = keepCount - 3;
+
+            if (keepCount <= 0)
+            {
+                break;
+            }
+
+            blanks++;
+        }
+
+        //adjust 'blanks'
+        if (blanks == 3)
+        {
+            blanks++;
+        }
+        else if (blanks == 4)
+        {
+            blanks = blanks + 2;
+        }
+
+        //print the '*'
+        cout << "\n\t" << string(blanks * 2, '  ') << "* *";
+
+        //continue the pattern
+        printPattern(value + 1);
+    }
+}
