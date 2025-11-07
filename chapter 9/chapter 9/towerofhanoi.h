@@ -13,6 +13,8 @@ const int NUM_PEGS = 3;
 void drawTowers(const vector<vector<int>>& pegs, int n);
 void moveTower(int n, int from, int to, int aux, vector<vector<int>>& pegs, int& moveCount, int totalDisks);
 
+// Preconditions: size must be a postive integer
+// Postconditions: makes the disks
 
 static string draw_disk(int size)
 {
@@ -31,6 +33,8 @@ static string draw_disk(int size)
     return disk;
 }
 
+// Preconditions: all functions has to be defined correctly
+// Postconditions: the tower of hanoi problem is solved recursively and the steps are displayed
 void runTowerOfHanoi()
 {
     system("cls");
@@ -61,7 +65,8 @@ void runTowerOfHanoi()
     } while (again == 'Y' || again == 'y');
 }
 
-// Draw the three towers
+// Preconditions: the disks must be in the correct order (larger below smaller)
+// Postconditions: the three towers are printed
 void drawTowers(const vector<vector<int>>& pegs, int n)
 {
     // Convert pegs to stack-like visualization order
@@ -145,6 +150,8 @@ void drawTowers(const vector<vector<int>>& pegs, int n)
 }
 
 // Recursive move function
+// Preconditions: n is a non-negative integer and the disks must be in the correct order (larger below smaller)
+// Postconditions: the console outputs the move action 
 void moveTower(int n, int from, int to, int aux, vector<vector<int>>& pegs, int& moveCount, int totalDisks)
 {
     if (n == 0) return;
